@@ -1,0 +1,139 @@
+# This is an example .goreleaser.yml file with some sensible defaults.
+# Make sure to check the documentation at https://goreleaser.com
+before:
+  hooks:
+    - go mod tidy
+builds:
+  - id: kuesta
+    binary: kuesta
+    main: .
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    flags:
+      - -trimpath
+    ldflags:
+      - -w -s
+      - -X github.com/nttcom/kuesta/cmd.date={{.Date}}
+      - -X github.com/nttcom/kuesta/cmd.version={{.Version}}
+      - -X github.com/nttcom/kuesta/cmd.commit={{.FullCommit}}
+  - id: kuesta-provisioner
+    binary: provisioner
+    dir: ./provisioner
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - amd64
+    flags:
+      - -trimpath
+  - id: device-operator
+    binary: device-operator
+    dir: ./device-operator
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - amd64
+    flags:
+      - -trimpath
+  - id: device-subscriber
+    binary: device-subscriber
+    dir: ./device-subscriber
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - amd64
+    flags:
+      - -trimpath
+release:
+  prerelease: "true"
+archives:
+  - builds:
+      - kuesta
+    files:
+      - LICENSE
+      - CREDITS
+      - README.md
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^misc:'
+      - '^chore:'
+      - '^ci:'
+      - '^manifest:'
+      - '^refactor:'
+
+dockers:
+  - id: kuesta
+    dockerfile: "build/Dockerfile.goreleaser.kuesta"
+    image_templates:
+      - "{{ .Env.IMAGE_REGISTRY }}/kuesta:latest"
+      - "{{ .Env.IMAGE_REGISTRY }}/kuesta:{{ .Tag }}"
+      - "{{ .Env.IMAGE_REGISTRY }}/kuesta:{{ .FullCommit }}"
+    use: docker
+    build_flag_templates:
+      - "--pull"
+      - "--label=org.opencontainers.image.source=https://github.com/nttcom/kuesta"
+      - "--label=org.opencontainers.image.created={{ .Date }}"
+      - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
+      - "--label=org.opencontainers.image.version={{ .Version }}"
+
+  - id: kuesta-provisioner
+    dockerfile: "build/Dockerfile.goreleaser.provisioner"
+    image_templates:
+      - "{{ .Env.IMAGE_REGISTRY }}/provisioner:latest"
+      - "{{ .Env.IMAGE_REGISTRY }}/provisioner:{{ .Tag }}"
+      - "{{ .Env.IMAGE_REGISTRY }}/provisioner:{{ .FullCommit }}"
+    use: docker
+    build_flag_templates:
+      - "--pull"
+      - "--label=org.opencontainers.image.source=https://github.com/nttcom/kuesta"
+      - "--label=org.opencontainers.image.created={{ .Date }}"
+      - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
+      - "--label=org.opencontainers.image.version={{ .Version }}"
+
+  - id: device-operator
+    dockerfile: "build/Dockerfile.goreleaser.device-operator"
+    image_templates:
+      - "{{ .Env.IMAGE_REGISTRY }}/device-operator:latest"
+      - "{{ .Env.IMAGE_REGISTRY }}/device-operator:{{ .Tag }}"
+      - "{{ .Env.IMAGE_REGISTRY }}/device-operator:{{ .FullCommit }}"
+    use: docker
+    build_flag_templates:
+      - "--pull"
+      - "--label=org.opencontainers.image.source=https://github.com/nttcom/kuesta"
+      - "--label=org.opencontainers.image.created={{ .Date }}"
+      - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
+      - "--label=org.opencontainers.image.version={{ .Version }}"
+
+  - id: device-subscriber
+    dockerfile: "build/Dockerfile.goreleaser.device-subscriber"
+    image_templates:
+      - "{{ .Env.IMAGE_REGISTRY }}/device-subscriber:latest"
+      - "{{ .Env.IMAGE_REGISTRY }}/device-subscriber:{{ .Tag }}"
+      - "{{ .Env.IMAGE_REGISTRY }}/device-subscriber:{{ .FullCommit }}"
+    use: docker
+    build_flag_templates:
+      - "--pull"
+      - "--label=org.opencontainers.image.source=https://github.com/nttcom/kuesta"
+      - "--label=org.opencontainers.image.created={{ .Date }}"
+      - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
+      - "--label=org.opencontainers.image.version={{ .Version }}"
+

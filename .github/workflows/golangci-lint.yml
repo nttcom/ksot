@@ -1,0 +1,44 @@
+# For spec detail, see https://github.com/golangci/golangci-lint-action.
+name: golangci-lint
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+    branches:
+      - main
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  golangci:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-go@v3
+        with:
+          go-version: 1.18
+      - uses: actions/checkout@v3
+      - name: golangci-lint-kuesta
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: latest
+          working-directory: .
+          args: --timeout 3m0s
+      - name: golangci-lint-provisioner
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: latest
+          working-directory: ./provisioner
+          args: --timeout 3m0s
+      - name: golangci-lint-device-operator
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: latest
+          working-directory: ./device-operator
+          args: --timeout 3m0s
+      - name: golangci-lint-device-subscriber
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: latest
+          working-directory: ./device-subscriber
+          args: --timeout 3m0s

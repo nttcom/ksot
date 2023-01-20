@@ -1,0 +1,24 @@
+# permissions for end users to edit ocdemoes.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ocdemo-editor-role
+rules:
+- apiGroups:
+  - kuesta.hrk091.dev
+  resources:
+  - ocdemoes
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - kuesta.hrk091.dev
+  resources:
+  - ocdemoes/status
+  verbs:
+  - get

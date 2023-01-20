@@ -1,0 +1,130 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: devicerollouts.kuesta.hrk091.dev
+spec:
+  group: kuesta.hrk091.dev
+  names:
+    kind: DeviceRollout
+    listKind: DeviceRolloutList
+    plural: devicerollouts
+    shortNames:
+    - dr
+    singular: devicerollout
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.phase
+      name: PHASE
+      type: string
+    - jsonPath: .status.status
+      name: STATUS
+      type: string
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: DeviceRollout is the Schema for the devicerollouts API.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: DeviceRolloutSpec defines the desired state of DeviceRollout.
+            properties:
+              deviceConfigMap:
+                additionalProperties:
+                  description: DeviceConfig provides a digest and other required info
+                    of the device config to be provisioned.
+                  properties:
+                    checksum:
+                      description: Digest is a digest to uniquely identify the overall
+                        device config
+                      type: string
+                    gitRevision:
+                      description: GitRevision is a revision from which this device
+                        config is provided
+                      type: string
+                  required:
+                  - checksum
+                  - gitRevision
+                  type: object
+                description: DeviceConfigMap is a map to bind device name and DeviceConfig
+                  to be provisioned
+                type: object
+            required:
+            - deviceConfigMap
+            type: object
+          status:
+            description: DeviceRolloutStatus defines the observed state of DeviceRollout.
+            properties:
+              desiredDeviceConfigMap:
+                additionalProperties:
+                  description: DeviceConfig provides a digest and other required info
+                    of the device config to be provisioned.
+                  properties:
+                    checksum:
+                      description: Digest is a digest to uniquely identify the overall
+                        device config
+                      type: string
+                    gitRevision:
+                      description: GitRevision is a revision from which this device
+                        config is provided
+                      type: string
+                  required:
+                  - checksum
+                  - gitRevision
+                  type: object
+                description: DesiredDeviceConfigMap represents the desired device
+                  configs to be provisioned in the current transaction
+                type: object
+              deviceStatusMap:
+                additionalProperties:
+                  description: DeviceStatus are a set of rollout progress.
+                  type: string
+                description: DeviceStatusMap is the rollout status
+                type: object
+              phase:
+                description: Phase is the rollout phase
+                type: string
+              prevDeviceConfigMap:
+                additionalProperties:
+                  description: DeviceConfig provides a digest and other required info
+                    of the device config to be provisioned.
+                  properties:
+                    checksum:
+                      description: Digest is a digest to uniquely identify the overall
+                        device config
+                      type: string
+                    gitRevision:
+                      description: GitRevision is a revision from which this device
+                        config is provided
+                      type: string
+                  required:
+                  - checksum
+                  - gitRevision
+                  type: object
+                description: PrevDeviceConfigMap represents the successfully provisioned
+                  device configs in the previous transaction
+                type: object
+              status:
+                description: Status is the rollout status
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

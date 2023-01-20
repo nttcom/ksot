@@ -1,0 +1,32 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: kuesta-selfsigned-issuer
+  namespace: cert-manager
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kuesta-ca-cert
+  namespace: cert-manager
+spec:
+  isCA: true
+  commonName: Kuesta Root CA
+  subject:
+    organizationalUnits:
+      - Kuesta Certification Authority
+  issuerRef:
+    kind: Issuer
+    name: kuesta-selfsigned-issuer
+  secretName: kuesta-ca-cert
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: kuesta-ca-issuer
+  namespace: cert-manager
+spec:
+  ca:
+    secretName: kuesta-ca-cert

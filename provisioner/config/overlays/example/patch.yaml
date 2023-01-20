@@ -1,0 +1,12 @@
+metadata:
+  name: provisioner-controller-manager
+  namespace: provisioner-system
+spec:
+  template:
+    spec:
+      containers:
+        - name: manager
+          args:
+            - --leader-elect
+kind: Deployment
+apiVersion: apps/v1

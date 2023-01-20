@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kuesta-server
+spec:
+  selector:
+    matchLabels:
+      app: kuesta-server
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kuesta-server
+    spec:
+      containers:
+        - name: kuesta
+          image: kuesta:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/kuesta
+          args:
+            - serve
+          env:
+            - name: KUESTA_CONFIG_ROOT_PATH
+              value: /data/repo_config
+            - name: KUESTA_CONFIG_REPO_URL
+              value: https://path/to/repo-config
+            - name: KUESTA_STATUS_ROOT_PATH
+              value: /data/repo_status
+            - name: KUESTA_STATUS_REPO_URL
+              value: https://path/to/repo-status
+            - name: KUESTA_TLS_CRT
+              value: /tmp/cert/tls.crt
+            - name: KUESTA_TLS_KEY
+              value: /tmp/cert/tls.key
+            - name: KUESTA_TLS_CA_CRT
+              value: /tmp/cert/ca.crt
+            - name: KUESTA_NOTLS
+              value: "true"
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - mountPath: /data
+              name: kuesta-server-data
+            - mountPath: /tmp/cert
+              name: cert
+              readOnly: true
+          ports:
+            - name: grpc
+              containerPort: 9339
+              protocol: TCP
+      volumes:
+        - name: kuesta-server-data
+          persistentVolumeClaim:
+            claimName: kuesta-server-data
+        - name: cert
+          secret:
+            defaultMode: 420
+            secretName: kuesta-server-cert

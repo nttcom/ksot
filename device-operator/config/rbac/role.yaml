@@ -1,0 +1,77 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: manager-role
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - kuesta.hrk091.dev
+  resources:
+  - devicerollouts
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - kuesta.hrk091.dev
+  resources:
+  - devicerollouts/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - kuesta.hrk091.dev
+  resources:
+  - ocdemoes
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - kuesta.hrk091.dev
+  resources:
+  - ocdemoes/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - kuesta.hrk091.dev
+  resources:
+  - ocdemoes/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - source.toolkit.fluxcd.io
+  resources:
+  - gitrepositories
+  verbs:
+  - get
+  - list
+  - watch
