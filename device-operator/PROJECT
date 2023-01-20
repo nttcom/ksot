@@ -1,0 +1,16 @@
+domain: hrk091.dev
+layout:
+- go.kubebuilder.io/v3
+projectName: device-operator
+repo: github.com/nttcom/kuesta/device-operator
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: hrk091.dev
+  group: kuesta
+  kind: OcDemo
+  path: github.com/nttcom/kuesta/device-operator/api/v1alpha1
+  version: v1alpha1
+version: "3"

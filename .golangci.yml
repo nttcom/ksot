@@ -1,0 +1,39 @@
+linters:
+  enable:
+    - bodyclose
+    - errorlint
+    - exhaustive
+    - exportloopref
+    - gci
+    - goconst
+    - gocritic
+    - godot
+    - gofumpt
+    - gosec
+    - makezero
+    - misspell
+    - nakedret
+    - nestif
+    - noctx
+    - predeclared
+    - unconvert
+    - whitespace
+linters-settings:
+  gci:
+    skip-generated: true
+  gocognit:
+    min-complexity: 20
+  exhaustive:
+    default-signifies-exhaustive: true
+issues:
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - errcheck
+        - goconst
+        - unused
+        - bodyclose
+        - gosec
+run:
+  skip-files:
+    - generated.go

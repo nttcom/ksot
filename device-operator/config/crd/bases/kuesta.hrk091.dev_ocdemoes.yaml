@@ -1,0 +1,106 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: ocdemoes.kuesta.hrk091.dev
+spec:
+  group: kuesta.hrk091.dev
+  names:
+    kind: OcDemo
+    listKind: OcDemoList
+    plural: ocdemoes
+    singular: ocdemo
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: OcDemo is the Schema for the ocdemoes API.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: DeviceSpec defines the basic specs required to manage target
+              device.
+            properties:
+              address:
+                type: string
+              baseRevision:
+                description: BaseRevision is the git revision to assume that the device
+                  config of the specified version has been already provisioned.
+                type: string
+              password:
+                type: string
+              port:
+                type: integer
+              pushOnly:
+                description: DiffOnly is the option flag to restrict pushing all configs
+                  without purging deleted fields in the case that lastApplied config
+                  is not set. If true, provision will be stopped when lastApplied
+                  config is not set.
+                type: boolean
+              rolloutRef:
+                description: RolloutRef is the name of DeviceRollout to which this
+                  device belongs.
+                type: string
+              secretName:
+                description: SecretName is the name of secret which has 'username'
+                  and 'password' keys. These written in this secret precedence over
+                  Username and Password.
+                type: string
+              tls:
+                description: TLSSpec defines TLS parameters to access the associated
+                  network device.
+                properties:
+                  notls:
+                    type: boolean
+                  secretName:
+                    description: Path to the cert file
+                    type: string
+                  serverName:
+                    description: To verify the server hostname
+                    type: string
+                  skipVerify:
+                    description: Skip verifying server cert
+                    type: boolean
+                type: object
+              username:
+                type: string
+            required:
+            - rolloutRef
+            type: object
+          status:
+            description: DeviceStatus defines the observed state of OcDemo.
+            properties:
+              baseRevision:
+                description: BaseRevision is the git revision to assume that the device
+                  config of the specified version has been already provisioned.
+                type: string
+              checksum:
+                description: Checksum is a hash to uniquely identify the entire device
+                  config.
+                type: string
+              lastApplied:
+                description: LastApplied is the device config applied at the previous
+                  transaction.
+                format: byte
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

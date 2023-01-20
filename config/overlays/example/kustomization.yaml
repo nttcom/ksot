@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../default
+
+namespace: kuesta-system
+
+secretGenerator:
+  - envs:
+      - .env.secret
+    name: kuesta-secrets
+
+patches:
+- patch.yaml

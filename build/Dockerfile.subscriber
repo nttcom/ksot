@@ -1,0 +1,26 @@
+FROM golang:1.18 as builder
+
+WORKDIR /workspace/device-subscriber
+COPY device-subscriber/go.mod ./
+COPY device-subscriber/go.sum ./
+COPY go.mod ../
+COPY go.sum ../
+RUN go mod download
+
+COPY . ../
+
+ARG CGO_ENABLED=0
+ARG GOOS=linux
+ARG GOARCH=amd64
+
+RUN CGO_ENABLED=${CGO_ENABLED} \
+    GOOS=${GOOS} \
+    GOARCH=${GOARCH} \
+    go build -o subscriber -ldflags "-w -s" main.go
+
+
+FROM scratch
+WORKDIR /bin
+COPY --from=builder /workspace/device-subscriber/subscriber .
+
+ENTRYPOINT ["/bin/subscriber"]
