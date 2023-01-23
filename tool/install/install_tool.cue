@@ -14,8 +14,8 @@ command: install: {
 	args: {
 		// TODO replace to nttcom
 		imageRegistry: string | *"ghcr.io/nttcom/kuesta" @tag(imageRegistry)
-		version:       string | *"latest"                   @tag(version)
-		_debug:        string | *"false"                    @tag(debug)
+		version:       string | *"latest"                @tag(version)
+		_debug:        string | *"false"                 @tag(debug)
 		debug:         _debug != "false"
 	}
 
@@ -23,43 +23,36 @@ command: install: {
 	$short: "Install kuesta to Kubernetes cluster with kubectl/kustomize."
 
 	configRepo: cli.Ask & {
-		prompt:   "Github repository for config:"
+		prompt:   "GitHub repository for config:"
 		response: string
 	}
 
 	statusRepo: cli.Ask & {
-		$dep:     configRepo
-		prompt:   "Github repository for status:"
+		$dep:     configRepo.$done
+		prompt:   "GitHub repository for status:"
+		response: string
+	}
+
+	gitUsername: cli.Ask & {
+		$dep:     statusRepo.$done
+		prompt:   "GitHub username:"
+		response: string
+	}
+
+	gitToken: cli.Ask & {
+		$dep:     gitUsername.$done
+		prompt:   "GitHub private access token:"
 		response: string
 	}
 
 	usePrivateRepo: cli.Ask & {
-		$dep:     statusRepo
-		prompt:   "Are these repositories private? (yes|no):"
+		$dep:     gitToken.$done
+		prompt:   "Are these git repositories private? (yes|no):"
 		response: bool | *false
 	}
 
-	gitUsername: {
-		if usePrivateRepo.response {
-			cli.Ask & {
-				prompt:   "Github username:"
-				response: string
-			}
-		}
-	}
-
-	gitToken: {
-		$dep: gitUsername.$done
-		if usePrivateRepo.response {
-			cli.Ask & {
-				prompt:   "Github private access token:"
-				response: string
-			}
-		}
-	}
-
 	wantEmulator: cli.Ask & {
-		$dep: [usePrivateRepo.$done, gitToken.$done]
+		$dep:     usePrivateRepo.$done
 		prompt:   "Do you need sample driver and emulator for trial?: (yes|no)"
 		response: bool
 	}
@@ -69,15 +62,11 @@ command: install: {
 		text: strings.Join([
 			"",
 			"---",
-			"Github Config Repository: \(configRepo.response)",
-			"Github Status Repository: \(statusRepo.response)",
+			"GitHub Config Repository: \(configRepo.response)",
+			"GitHub Status Repository: \(statusRepo.response)",
+			"GitHub Username: \(gitUsername.response)",
+			"GitHub Access Token: ***",
 			"Use Private Repo: \(usePrivateRepo.response)",
-			if usePrivateRepo.response {
-				"Github Username: \(gitUsername.response)"
-			},
-			if usePrivateRepo.response {
-				"Github Access Token: ***"
-			},
 			"",
 			"Image Registry: \(args.imageRegistry)",
 			"Version: \(args.version)",
@@ -112,15 +101,12 @@ command: install: {
 			kuesta: deployKuesta & {
 				$dep: vendor.$done
 				var: {
-					"configRepo":     configRepo.response
-					"statusRepo":     statusRepo.response
-					"usePrivateRepo": usePrivateRepo.response
-					if usePrivateRepo.response {
-						"gitToken": gitToken.response
-					}
-					image:   "\(args.imageRegistry)/kuesta"
-					version: args.version
-					debug:   args.debug
+					"configRepo": configRepo.response
+					"statusRepo": statusRepo.response
+					"gitToken":   gitToken.response
+					image:        "\(args.imageRegistry)/kuesta"
+					version:      args.version
+					debug:        args.debug
 				}
 			}
 			provisioner: deployProvisioner & {
@@ -211,13 +197,12 @@ deployKuesta: {
 
 	// inputs
 	var: {
-		configRepo:     string
-		statusRepo:     string
-		usePrivateRepo: bool
-		gitToken:       string | *""
-		image:          string
-		version:        string | *"latest"
-		debug:          bool
+		configRepo: string
+		statusRepo: string
+		gitToken:   string | *""
+		image:      string
+		version:    string | *"latest"
+		debug:      bool
 	}
 
 	// private variables
@@ -227,7 +212,6 @@ deployKuesta: {
 		"var": {
 			configRepo:        var.configRepo
 			statusRepo:        var.statusRepo
-			usePrivateRepo:    var.usePrivateRepo
 			secretEnvFileName: _secretEnvFileName
 			secretKeyGitToken: _secretKeyGitToken
 			debug:             var.debug
@@ -264,14 +248,10 @@ deployKuesta: {
 		contents: yaml.MarshalStream([ for _, v in _k.patches {v}])
 	}
 
-	writeSecret: {
-		$dep: writePatch.$done
-		if var.usePrivateRepo {
-			file.Create & {
-				filename: _secretEnvFile
-				contents: "\(_secretKeyGitToken)=\(var.gitToken)"
-			}
-		}
+	writeSecret: file.Create & {
+		$dep:     writePatch.$done
+		filename: _secretEnvFile
+		contents: "\(_secretKeyGitToken)=\(var.gitToken)"
 	}
 
 	deploy: exec.Run & {
@@ -284,13 +264,9 @@ deployKuesta: {
 			"""]
 	}
 
-	deleteSecret: {
+	deleteSecret: file.RemoveAll & {
 		$dep: deploy.$done
-		if var.usePrivateRepo {
-			file.RemoveAll & {
-				path: _secretEnvFile
-			}
-		}
+		path: _secretEnvFile
 	}
 
 	$done: deploy.$done

@@ -11,7 +11,6 @@ kustomizations: {
 		var: {
 			configRepo:        string
 			statusRepo:        string
-			usePrivateRepo:    bool
 			secretEnvFileName: string | *""
 			secretKeyGitToken: string | *""
 			debug:             bool | *false
@@ -34,12 +33,10 @@ kustomizations: {
 			resources: ["../../default"]
 			namespace: "kuesta-system"
 
-			if var.usePrivateRepo {
-				secretGenerator: [{
-					envs: [var.secretEnvFileName]
-					name: _secretName
-				}]
-			}
+			secretGenerator: [{
+				envs: [var.secretEnvFileName]
+				name: _secretName
+			}]
 
 			patches: ["patch.yaml"]
 		}
@@ -73,13 +70,11 @@ kustomizations: {
 							name:  "KUESTA_STATUS_REPO_URL"
 							value: var.statusRepo
 						},
-						if var.usePrivateRepo {
-							{
-								name: "KUESTA_GIT_TOKEN"
-								valueFrom: secretKeyRef: {
-									name: _secretName
-									key:  var.secretKeyGitToken
-								}
+						{
+							name: "KUESTA_GIT_TOKEN"
+							valueFrom: secretKeyRef: {
+								name: _secretName
+								key:  var.secretKeyGitToken
 							}
 						},
 					]
@@ -109,13 +104,11 @@ kustomizations: {
 							name:  "KUESTA_STATUS_REPO_URL"
 							value: var.statusRepo
 						},
-						if var.usePrivateRepo {
-							{
-								name: "KUESTA_GIT_TOKEN"
-								valueFrom: secretKeyRef: {
-									name: _secretName
-									key:  var.secretKeyGitToken
-								}
+						{
+							name: "KUESTA_GIT_TOKEN"
+							valueFrom: secretKeyRef: {
+								name: _secretName
+								key:  var.secretKeyGitToken
 							}
 						},
 					]

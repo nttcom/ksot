@@ -199,15 +199,6 @@ resources: {
 			"openconfig-interfaces:interfaces": interface: [{
 				name: "admin"
 				config: name: "admin"
-			}, {
-				name: "Ethernet1"
-				config: name: "Ethernet1"
-			}, {
-				name: "Ethernet2"
-				config: name: "Ethernet2"
-			}, {
-				name: "Ethernet3"
-				config: name: "Ethernet3"
 			}]
 		}
 	}
