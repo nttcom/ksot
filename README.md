@@ -22,6 +22,11 @@ THE SOFTWARE.
 
 # Kuesta
 
+[![Go 1.18+](https://img.shields.io/badge/go-1.18-9cf.svg)](https://golang.org/dl/)
+[![Go Report Card](https://goreportcard.com/badge/nttcom/kuesta)](https://goreportcard.com/report/github.com/nttcom/kuesta)
+[![build](https://github.com/nttcom/kuesta/actions/workflows/build.yml/badge.svg)](https://github.com/nttcom/kuesta/actions/workflows/build.yml)
+[![test](https://github.com/nttcom/kuesta/actions/workflows/test.yml/badge.svg)](https://github.com/nttcom/kuesta/actions/workflows/test.yml)
+
 **Kuesta** is an open source framework for network configuration, enabling Infrastructure-as-Code of network devices. It provides us a rich network automation by adopting cloud-native best practices of IaC and GitOps.
 
 Documentation is available at https://nttcom.github.io/kuesta-website/docs.
