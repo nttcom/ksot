@@ -22,9 +22,7 @@ THE SOFTWARE.
 
 # Kuesta
 
-**Kuesta** is an open source framework for network configuration, enabling operators
-Infrastructure-as-Code of network equipments. It provides us a rich network automation
-by adopting cloud-native best practices of IaC and GitOps.
+**Kuesta** is an open source framework for network configuration, enabling Infrastructure-as-Code of network devices. It provides us a rich network automation by adopting cloud-native best practices of IaC and GitOps.
 
 Documentation is available at https://nttcom.github.io/kuesta-website/docs.
 
