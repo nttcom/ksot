@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	cuelang.org/go v0.4.3
-	github.com/go-playground/validator/v10 v10.11.0
+	github.com/go-playground/validator/v10 v10.11.1
 	github.com/nttcom/kuesta v0.0.0
 	github.com/openconfig/gnmi v0.0.0-20220617175856-41246b1b3507
 	github.com/openconfig/goyang v1.0.0
