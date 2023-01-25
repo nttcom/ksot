@@ -24,11 +24,10 @@ jobs:
         with:
           go-version: ${{ env.GO_VERSION }}
 
-# TODO enable following after change to public
-#      - name: Initialize CodeQL
-#        uses: github/codeql-action/init@v2
-#        with:
-#          languages: go, javascript
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: go
 
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v4
@@ -36,5 +35,7 @@ jobs:
           version: latest
           args: release --snapshot --rm-dist
 
-#      - name: Perform CodeQL Analysis
-#        uses: github/codeql-action/analyze@v2
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          category: "/language:go"
