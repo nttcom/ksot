@@ -9,9 +9,9 @@ require (
 	github.com/nttcom/kuesta/provisioner v0.0.0
 	github.com/onsi/ginkgo v1.16.5
 	github.com/onsi/gomega v1.26.0
-	github.com/openconfig/gnmi v0.0.0-20220617175856-41246b1b3507
-	github.com/openconfig/goyang v1.0.0
-	github.com/openconfig/ygot v0.22.1
+	github.com/openconfig/gnmi v0.0.0-20220920173703-480bf53a74d2
+	github.com/openconfig/goyang v1.2.0
+	github.com/openconfig/ygot v0.25.6
 	github.com/pkg/errors v0.9.1
 	go.uber.org/zap v1.24.0
 	google.golang.org/protobuf v1.28.0
@@ -78,7 +78,7 @@ require (
 	github.com/mpvl/unique v0.0.0-20150818121801-cbe035fff7de // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/nxadm/tail v1.4.8 // indirect
-	github.com/openconfig/grpctunnel v0.0.0-20220524190229-125331eabdde // indirect
+	github.com/openconfig/grpctunnel v0.0.0-20220819142823-6f5422b8ca70 // indirect
 	github.com/prometheus/client_golang v1.12.1 // indirect
 	github.com/prometheus/client_model v0.2.0 // indirect
 	github.com/prometheus/common v0.32.1 // indirect
