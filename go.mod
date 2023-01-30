@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	cuelang.org/go v0.4.3
-	github.com/fluxcd/pkg/untar v0.1.0
+	github.com/fluxcd/pkg/untar v0.2.0
 	github.com/fluxcd/source-controller/api v0.33.0
 	github.com/go-git/go-git/v5 v5.4.2
 	github.com/go-playground/validator/v10 v10.11.1
