@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	cuelang.org/go v0.4.3
-	github.com/fluxcd/pkg/untar v0.1.0
+	github.com/fluxcd/pkg/untar v0.3.0
 	github.com/fluxcd/source-controller/api v0.33.0
 	github.com/go-git/go-git/v5 v5.4.2
 	github.com/go-playground/validator/v10 v10.11.1
@@ -35,11 +35,13 @@ require (
 	github.com/acomagu/bufpipe v1.0.3 // indirect
 	github.com/cenkalti/backoff/v4 v4.1.1 // indirect
 	github.com/cockroachdb/apd/v2 v2.0.1 // indirect
+	github.com/cyphar/filepath-securejoin v0.2.3 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/emicklei/proto v1.6.15 // indirect
 	github.com/emirpasic/gods v1.12.0 // indirect
 	github.com/fluxcd/pkg/apis/acl v0.1.0 // indirect
 	github.com/fluxcd/pkg/apis/meta v0.18.0 // indirect
+	github.com/fluxcd/pkg/tar v0.2.0 // indirect
 	github.com/fsnotify/fsnotify v1.5.4 // indirect
 	github.com/go-git/gcfg v1.5.0 // indirect
 	github.com/go-git/go-billy/v5 v5.3.1 // indirect

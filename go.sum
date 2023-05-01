@@ -76,6 +76,8 @@ github.com/cockroachdb/apd/v2 v2.0.1 h1:y1Rh3tEU89D+7Tgbw+lp52T6p/GJLpDmNvr10UWq
 github.com/cockroachdb/apd/v2 v2.0.1/go.mod h1:DDxRlzC2lo3/vSlmSoS7JkqbbrARPuFOGr0B9pvN3Gw=
 github.com/cpuguy83/go-md2man/v2 v2.0.2/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46tRHOmNcaadrF8o=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
+github.com/cyphar/filepath-securejoin v0.2.3 h1:YX6ebbZCZP7VkM3scTTokDgBL2TY741X51MTk3ycuNI=
+github.com/cyphar/filepath-securejoin v0.2.3/go.mod h1:aPGpWjXOXUn2NCNjFvBE6aRxGGx79pTxQpKOJNYHHl4=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -95,8 +97,10 @@ github.com/fluxcd/pkg/apis/acl v0.1.0 h1:EoAl377hDQYL3WqanWCdifauXqXbMyFuK82NnX6
 github.com/fluxcd/pkg/apis/acl v0.1.0/go.mod h1:zfEZzz169Oap034EsDhmCAGgnWlcWmIObZjYMusoXS8=
 github.com/fluxcd/pkg/apis/meta v0.18.0 h1:s0LeulWcQ4DxVX6805vgDTxlA6bAYk+Lq1QHSnNdqLM=
 github.com/fluxcd/pkg/apis/meta v0.18.0/go.mod h1:pYvXRFi1UKNNrGR34jw3uqOnMXw9X6dTkML8j5Z7tis=
-github.com/fluxcd/pkg/untar v0.1.0 h1:k97V/xV5hFrAkIkVPuv5AVhyxh1ZzzAKba/lbDfGo6o=
-github.com/fluxcd/pkg/untar v0.1.0/go.mod h1:aGswNyzB1mlz/T/kpOS58mITBMxMKc9tlJBH037A2HY=
+github.com/fluxcd/pkg/tar v0.2.0 h1:HEUHgONQYsJGeZZ4x6h5nQU9Aox1I4T3bOp1faWTqf8=
+github.com/fluxcd/pkg/tar v0.2.0/go.mod h1:w0/TOC7kwBJhnSJn7TCABkc/I7ib1f2Yz6vOsbLBnhw=
+github.com/fluxcd/pkg/untar v0.3.0 h1:FOGc69nBvasLjFu5Imdc7Kl/U/gRdIyyF2ZkD9gKuXI=
+github.com/fluxcd/pkg/untar v0.3.0/go.mod h1:ClGpWYeDidYETkl048vCgHlsNtn5BHYHvMmQdadRGKs=
 github.com/fluxcd/source-controller/api v0.33.0 h1:NZYU3+MNf9puyrTbBa7AJbBDlN7tmt0uw8lyye++5fE=
 github.com/fluxcd/source-controller/api v0.33.0/go.mod h1:+DiGND4WSNdGkS7loPUroSarif6dHU4VlVgtLMRKCR8=
 github.com/flynn/go-shlex v0.0.0-20150515145356-3f9db97f8568/go.mod h1:xEzjJPgXI435gkrCt3MPfRiAkVrwSbHsst4LCFVfpJc=
