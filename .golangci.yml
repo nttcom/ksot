@@ -4,11 +4,9 @@ linters:
     - errorlint
     - exhaustive
     - exportloopref
-    - gci
     - goconst
     - gocritic
     - godot
-    - gofumpt
     - gosec
     - makezero
     - misspell
@@ -19,8 +17,6 @@ linters:
     - unconvert
     - whitespace
 linters-settings:
-  gci:
-    skip-generated: true
   gocognit:
     min-complexity: 20
   exhaustive:
