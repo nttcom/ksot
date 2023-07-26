@@ -92,7 +92,7 @@ func NewRootCmd() *cobra.Command {
 	cmd.PersistentFlags().StringP(FlagGitToken, "", "", "git auth token")
 	cmd.PersistentFlags().StringP(FlagGitUser, "", gogit.DefaultGitUser, "git username")
 	cmd.PersistentFlags().StringP(FlagGitEmail, "", gogit.DefaultGitEmail, "git email")
-	cmd.PersistentFlags().BoolP(FlagPushToMain, "", false, "push to main (otherwise create new branch)")
+	cmd.PersistentFlags().BoolP(FlagPushToMain, "", true, "push to main (otherwise create new branch)")
 	cmd.PersistentFlags().BoolP(FlagNoTLS, "", false, "disable TLS validation")
 	cmd.PersistentFlags().BoolP(FlagInsecure, "", false, "skip TLS validation. Client cert will be verified only when provided.")
 	cmd.PersistentFlags().StringP(FlagTLSCrt, "", "", "path to the certificate file")
