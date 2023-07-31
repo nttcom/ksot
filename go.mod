@@ -9,7 +9,7 @@ require (
 	github.com/go-git/go-git/v5 v5.4.2
 	github.com/go-playground/validator/v10 v10.11.1
 	github.com/golang/mock v1.6.0
-	github.com/golang/protobuf v1.5.2
+	github.com/golang/protobuf v1.5.3
 	github.com/openconfig/gnmi v0.0.0-20220617175856-41246b1b3507
 	github.com/pkg/errors v0.9.1
 	github.com/rogpeppe/go-internal v1.8.1
