@@ -9,7 +9,7 @@ require (
 	github.com/nttcom/kuesta/provisioner v0.0.0
 	github.com/onsi/ginkgo v1.16.5
 	github.com/onsi/gomega v1.26.0
-	github.com/openconfig/gnmi v0.0.0-20220920173703-480bf53a74d2
+	github.com/openconfig/gnmi v0.10.0
 	github.com/openconfig/goyang v1.2.0
 	github.com/openconfig/ygot v0.25.6
 	github.com/pkg/errors v0.9.1
