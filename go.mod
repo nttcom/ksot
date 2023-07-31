@@ -12,9 +12,9 @@ require (
 	github.com/golang/protobuf v1.5.2
 	github.com/openconfig/gnmi v0.0.0-20220617175856-41246b1b3507
 	github.com/pkg/errors v0.9.1
-	github.com/rogpeppe/go-internal v1.8.1
+	github.com/rogpeppe/go-internal v1.9.0
 	github.com/shurcooL/githubv4 v0.0.0-20221126192849-0b5c4c7994eb
-	github.com/spf13/cast v1.5.0
+	github.com/spf13/cast v1.5.1
 	github.com/spf13/cobra v1.5.0
 	github.com/spf13/viper v1.12.0
 	github.com/stretchr/testify v1.8.1
