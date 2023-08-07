@@ -3,7 +3,7 @@ module github.com/nttcom/kuesta/device-subscriber
 go 1.18
 
 require (
-	cuelang.org/go v0.4.3
+	cuelang.org/go v0.5.0
 	github.com/go-playground/validator/v10 v10.11.1
 	github.com/nttcom/kuesta v0.0.0
 	github.com/openconfig/gnmi v0.0.0-20220617175856-41246b1b3507
@@ -21,9 +21,9 @@ replace github.com/nttcom/kuesta v0.0.0 => ../
 
 require (
 	github.com/cenkalti/backoff/v4 v4.1.1 // indirect
-	github.com/cockroachdb/apd/v2 v2.0.1 // indirect
+	github.com/cockroachdb/apd/v2 v2.0.2 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/emicklei/proto v1.6.15 // indirect
+	github.com/emicklei/proto v1.10.0 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/go-logr/logr v1.2.3 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
