@@ -6,7 +6,7 @@ COPY go.sum ./
 RUN go mod download
 
 COPY main.go ./
-COPY cmd/ cmd/
+COPY internal/ internal/
 COPY pkg/ pkg/
 
 ARG CGO_ENABLED=0
@@ -24,6 +24,6 @@ WORKDIR /bin
 COPY --from=builder /workspace/kuesta .
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 
-EXPOSE 9339
+EXPOSE 9339 8080
 
 ENTRYPOINT ["/bin/kuesta"]

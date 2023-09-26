@@ -45,8 +45,14 @@ func newServeCmd() *cobra.Command {
 				return err
 			}
 			logger.Setup(cfg.Devel, cfg.Verbose)
-
-			return core.RunServe(cmd.Context(), cfg)
+			serveError := make(chan error)
+			go func() {
+				serveError <- core.RunServeHttp(cmd.Context(), cfg)
+			}()
+			go func() {
+				serveError <- core.RunServe(cmd.Context(), cfg)
+			}()
+			return <-serveError
 		},
 	}
 	cmd.Flags().StringP(FlagServeAddr, "a", ":9339", "Bind address of gNMI northbound API.")
