@@ -30,6 +30,7 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"path/filepath"
 
 	"cuelang.org/go/cue"
 	"cuelang.org/go/cue/cuecontext"
@@ -116,7 +117,8 @@ func HttpGet(c echo.Context, rootpath string) error {
 
 	res := make([]interface{}, 0)
 	for _, v := range req.Paths {
-		buf, err := os.ReadFile(rootpath + v + "/input.cue")
+		path := filepath.Join(rootpath, v, "input.cue")
+		buf, err := os.ReadFile(filepath.Clean(path))
 		if err != nil {
 			return errors.New(fmt.Sprintf("HttpGet error: Read file: %v", err))
 		}
@@ -166,8 +168,8 @@ func HttpSet(c echo.Context, ctx context.Context, gogit *gogit.Git, scfg *ServeC
 
 	reqBody.Path = req["path"].(string)
 	reqBody.Value = req["value"].(map[string]interface{})
-	inputPath := scfg.ConfigRootPath + reqBody.Path + "/input.cue"
-	buf, err := os.ReadFile(inputPath)
+	inputPath := filepath.Join(scfg.ConfigRootPath, reqBody.Path, "input.cue")
+	buf, err := os.ReadFile(filepath.Clean(inputPath))
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("HttpSet error: read:  %v", err))
 	}
