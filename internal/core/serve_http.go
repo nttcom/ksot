@@ -25,7 +25,6 @@ package core
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"net"
 	"net/http"
@@ -41,18 +40,6 @@ import (
 	kcue "github.com/nttcom/kuesta/pkg/cue"
 	"github.com/nttcom/kuesta/pkg/kuesta"
 )
-
-type ServeHttpCfg struct {
-	RootCfg
-	Addr            string `validate:"required"`
-	SyncPeriod      int    `validate:"required"`
-	PersistGitState bool
-	NoTLS           bool
-	Insecure        bool
-	TLSCrtPath      string
-	TLSKeyPath      string
-	TLSCACrtPath    string
-}
 
 type HttpGetBody struct {
 	Paths []string `json:"paths"`
@@ -73,7 +60,7 @@ func RunServeHttp(ctx context.Context, cfg *ServeCfg) error {
 	e := echo.New()
 
 	l.Infow("starting to listen", "address", 8080)
-	listen, err := net.Listen("tcp", ":8080")
+	listen, err := net.Listen("tcp", cfg.HttpAddr)
 	if err != nil {
 		e.Logger.Fatal(err)
 	}
@@ -102,7 +89,7 @@ func HttpCapabilities(c echo.Context, path string) error {
 	c.Logger().Info("CapabilityRequest called for http")
 	mlist, err := kuesta.ReadServiceMetaAll(path)
 	if err != nil {
-		return errors.New(fmt.Sprintf("HttpCapabilities error: %v", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("HttpCapabilities error: ReadServiceMetaAll:  %v", err))
 	}
 	return c.JSON(http.StatusOK, mlist)
 }
@@ -117,25 +104,23 @@ func HttpGet(c echo.Context, rootpath string) error {
 
 	res := make([]interface{}, 0)
 	for _, v := range req.Paths {
-		path := filepath.Join(rootpath, v, "input.cue")
-		buf, err := os.ReadFile(filepath.Clean(path))
+		path := filepath.Clean(filepath.Join(rootpath, v, "input.cue"))
+		buf, err := os.ReadFile(path)
 		if err != nil {
-			return errors.New(fmt.Sprintf("HttpGet error: Read file: %v", err))
+			return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("HttpGet error: ReadFile: %v", err))
 		}
 		cctx := cuecontext.New()
 		val, err := kcue.NewValueFromBytes(cctx, buf)
 		if err != nil {
-			return errors.New(fmt.Sprintf("HttpGet error: New cuevalue: %v", err))
+			return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("HttpGet error: NewValueFromBytes: %v", err))
 		}
 		jsonDump, err := val.MarshalJSON()
 		if err != nil {
-			return errors.New(fmt.Sprintf("HttpGet error: Marshal json: %v", err))
+			return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("HttpGet error: MarshalJSON: %v", err))
 		}
-
 		var mapData map[string]interface{}
-
 		if err := json.Unmarshal(jsonDump, &mapData); err != nil {
-			return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("HttpGet Unmarshal json error: %v", err))
+			return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("HttpGet error: Unmarshal: %v", err))
 		}
 		res = append(res, mapData)
 	}
@@ -168,48 +153,54 @@ func HttpSet(c echo.Context, ctx context.Context, gogit *gogit.Git, scfg *ServeC
 
 	reqBody.Path = req["path"].(string)
 	reqBody.Value = req["value"].(map[string]interface{})
-	inputPath := filepath.Join(scfg.ConfigRootPath, reqBody.Path, "input.cue")
-	buf, err := os.ReadFile(filepath.Clean(inputPath))
+	inputPath := filepath.Clean(filepath.Join(scfg.ConfigRootPath, reqBody.Path, "input.cue"))
+	buf, err := os.ReadFile(inputPath)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("HttpSet error: read:  %v", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("HttpSet error: ReadFile:  %v", err))
 	}
 
 	cctx := cuecontext.New()
 	val, err := kcue.NewValueFromBytes(cctx, buf)
 	if err != nil {
-		return errors.New(fmt.Sprintf("HttpGet error: %v", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("HttpSet error: NewValueFromBytes:  %v", err))
 	}
 	jsonDump, err := val.MarshalJSON()
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("HttpSet error: MarshalJSON:  %v", err))
+	}
 	before := make(map[string]interface{}, 0)
 	if err := json.Unmarshal(jsonDump, &before); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, "HttpSet error: unmarshal")
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("HttpSet error: Unmarshal:  %v", err))
 	}
 
 	expr := kcue.NewAstExpr(reqBody.Value)
 	inputVal := cctx.BuildExpr(expr)
 	if inputVal.Err() != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, "HttpSet error: convert cuelang")
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("HttpSet error: BuildExpr:  %v", inputVal.Err()))
 	}
 
 	b, err := kcue.FormatCue(inputVal, cue.Final())
-	err = file.WriteFileWithMkdir(inputPath, b)
 	if err != nil {
-		return errors.New(fmt.Sprintf("HttpGet error WriteFileWithMkdir: %v", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("HttpSet error: MarshalJSON:  %v", err))
+	}
+
+	if err := file.WriteFileWithMkdir(inputPath, b); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("HttpSet error: WriteFileWithMkdir: %v", err))
 	}
 
 	sp := kuesta.ServicePath{RootDir: scfg.ConfigRootPath}
 	if err := gogit.Add(sp.ServiceDirPath(kuesta.ExcludeRoot)); err != nil {
-		return errors.New(fmt.Sprintf("Failed to perform 'git add: %v", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("HttpSet error: gogit add: %v", err))
 	}
 
 	serviceApplyCfg := ServiceApplyCfg{RootCfg: scfg.RootCfg}
 	if err := RunServiceApply(ctx, &serviceApplyCfg); err != nil {
-		return errors.New(fmt.Sprintf("Failed to apply service template mapping: %v", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("HttpSet error: RunServiceApply: %v", err))
 	}
 
 	gitCommitCfg := GitCommitCfg{RootCfg: scfg.RootCfg}
 	if err := RunGitCommit(ctx, &gitCommitCfg); err != nil {
-		return errors.New(fmt.Sprintf("Failed to create PullRequest: %v", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("HttpSet error: RunGitCommit: %v", err))
 	}
 
 	res := HttpSetRes{
