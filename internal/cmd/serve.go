@@ -57,7 +57,7 @@ func newServeCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringP(FlagServeAddr, "a", ":9339", "Bind address of gNMI northbound API.")
-	cmd.Flags().StringP(FlagServeHttpAddr, "h", ":8080", "Bind address of http northbound API.")
+	cmd.Flags().StringP(FlagServeHttpAddr, "", ":8080", "Bind address of http northbound API.")
 	cmd.Flags().IntP(FlagSyncInterval, "", 10, "Interval to exec git-pull from status repo.")
 	cmd.Flags().BoolP(FlagPersistGitState, "", false, "Persist git workspace even when api call closed without performing hard-reset.")
 	mustBindToViper(cmd)
