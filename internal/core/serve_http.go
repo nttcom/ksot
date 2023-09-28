@@ -30,6 +30,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"cuelang.org/go/cue"
 	"cuelang.org/go/cue/cuecontext"
@@ -39,6 +40,11 @@ import (
 	"github.com/nttcom/kuesta/internal/logger"
 	kcue "github.com/nttcom/kuesta/pkg/cue"
 	"github.com/nttcom/kuesta/pkg/kuesta"
+)
+
+const (
+	ServiceKind = "services"
+	DeviceKind  = "devices"
 )
 
 type HttpGetBody struct {
@@ -99,12 +105,25 @@ func HttpGet(c echo.Context, rootpath string) error {
 	c.Logger().Info("get called for http")
 	req := HttpGetBody{}
 	if err := c.Bind(&req); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("HttpGet Please provide valid credentials: %v", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("HttpGet error: Bind: %v", err))
 	}
 
 	res := make([]interface{}, 0)
 	for _, v := range req.Paths {
-		path := filepath.Clean(filepath.Join(rootpath, v, "input.cue"))
+		pathElms := strings.Split(filepath.Clean(v), "/")
+		if len(pathElms) < 2 {
+			return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("HttpGet error: not expected path %v", v))
+		}
+		rfile := ""
+		switch pathElms[1] {
+		case ServiceKind:
+			rfile = "input.cue"
+		case DeviceKind:
+			rfile = "config.cue"
+		default:
+			return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("HttpGet error: not expected kind %v", pathElms[1]))
+		}
+		path := filepath.Clean(filepath.Join(rootpath, v, rfile))
 		buf, err := os.ReadFile(path)
 		if err != nil {
 			return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("HttpGet error: ReadFile: %v", err))
