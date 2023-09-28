@@ -155,7 +155,7 @@ func HttpSet(c echo.Context, ctx context.Context, gogit *gogit.Git, scfg *ServeC
 	reqBody.Value = req["value"].(map[string]interface{})
 	inputPath := filepath.Clean(filepath.Join(scfg.ConfigRootPath, reqBody.Path, "input.cue"))
 	buf, err := os.ReadFile(inputPath)
-	if err != nil {
+	if err != nil && !os.IsNotExist(err) {
 		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("HttpSet error: ReadFile:  %v", err))
 	}
 
