@@ -31,6 +31,7 @@ import (
 
 const (
 	FlagServeAddr       = "serve-addr"
+	FlagServeHttpAddr   = "serve-http-addr"
 	FlagSyncInterval    = "sync-interval"
 	FlagPersistGitState = "persist-git-state"
 )
@@ -45,11 +46,18 @@ func newServeCmd() *cobra.Command {
 				return err
 			}
 			logger.Setup(cfg.Devel, cfg.Verbose)
-
-			return core.RunServe(cmd.Context(), cfg)
+			serveError := make(chan error)
+			go func() {
+				serveError <- core.RunServeHttp(cmd.Context(), cfg)
+			}()
+			go func() {
+				serveError <- core.RunServe(cmd.Context(), cfg)
+			}()
+			return <-serveError
 		},
 	}
 	cmd.Flags().StringP(FlagServeAddr, "a", ":9339", "Bind address of gNMI northbound API.")
+	cmd.Flags().StringP(FlagServeHttpAddr, "", ":8080", "Bind address of http northbound API.")
 	cmd.Flags().IntP(FlagSyncInterval, "", 10, "Interval to exec git-pull from status repo.")
 	cmd.Flags().BoolP(FlagPersistGitState, "", false, "Persist git workspace even when api call closed without performing hard-reset.")
 	mustBindToViper(cmd)
@@ -65,6 +73,7 @@ func newServeCfg(cmd *cobra.Command, args []string) (*core.ServeCfg, error) {
 	cfg := &core.ServeCfg{
 		RootCfg:         *rootCfg,
 		Addr:            viper.GetString(FlagServeAddr),
+		HttpAddr:        viper.GetString(FlagServeHttpAddr),
 		SyncPeriod:      viper.GetInt(FlagSyncInterval),
 		PersistGitState: viper.GetBool(FlagPersistGitState),
 		NoTLS:           viper.GetBool(FlagNoTLS),

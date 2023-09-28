@@ -49,6 +49,9 @@ spec:
             - name: grpc
               containerPort: 9339
               protocol: TCP
+            - name: http
+              containerPort: 8080
+              protocol: TCP
       volumes:
         - name: kuesta-server-data
           persistentVolumeClaim:

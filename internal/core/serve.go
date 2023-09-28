@@ -60,7 +60,8 @@ type ServeCfg struct {
 	RootCfg
 
 	Addr            string `validate:"required"`
-	SyncPeriod      int    `validate:"required"`
+	HttpAddr        string
+	SyncPeriod      int `validate:"required"`
 	PersistGitState bool
 	NoTLS           bool
 	Insecure        bool
