@@ -19,8 +19,8 @@ require (
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.12.0
 	github.com/stretchr/testify v1.8.1
-	go.uber.org/multierr v1.9.0
-	go.uber.org/zap v1.24.0
+	go.uber.org/multierr v1.10.0
+	go.uber.org/zap v1.26.0
 	golang.org/x/net v0.3.1-0.20221206200815-1e63c2f08a10
 	golang.org/x/oauth2 v0.0.0-20220411215720-9780585627b5
 	google.golang.org/grpc v1.46.2
@@ -85,7 +85,6 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.1 // indirect
 	github.com/xanzy/ssh-agent v0.3.0 // indirect
-	go.uber.org/atomic v1.7.0 // indirect
 	golang.org/x/crypto v0.0.0-20220411220226-7b82a4e95df4 // indirect
 	golang.org/x/sys v0.3.0 // indirect
 	golang.org/x/text v0.5.0 // indirect
