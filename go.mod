@@ -16,7 +16,7 @@ require (
 	github.com/rogpeppe/go-internal v1.8.1
 	github.com/shurcooL/githubv4 v0.0.0-20221126192849-0b5c4c7994eb
 	github.com/spf13/cast v1.5.0
-	github.com/spf13/cobra v1.7.0
+	github.com/spf13/cobra v1.8.0
 	github.com/spf13/viper v1.12.0
 	github.com/stretchr/testify v1.8.1
 	go.uber.org/multierr v1.9.0
