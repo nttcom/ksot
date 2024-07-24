@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ksot-nb-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: ksot-nb-server
+          env:
+            - name: GITHUB_SERVER_URL
+              value: GITHUB_SERVER_URL
+            - name: SB_SERVER_URL
+              value: SB_SERVER_URL

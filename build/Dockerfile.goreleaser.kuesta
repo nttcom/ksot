@@ -1,7 +1,0 @@
-FROM scratch
-WORKDIR /bin
-COPY kuesta .
-COPY --from=golang:1.18 /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
-
-EXPOSE 9339 8080
-ENTRYPOINT ["/bin/kuesta"]

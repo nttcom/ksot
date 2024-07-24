@@ -1,0 +1,5 @@
+flask == 2.3.3
+ncclient == 0.6.7
+pygnmi == 0.8.12
+flask-cors == 4.0.0
+xmltodict == 0.13.0

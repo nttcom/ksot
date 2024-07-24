@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ksot-nb-deployment
+spec:
+  selector:
+    matchLabels:
+      app: ksot-nb-deployment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ksot-nb-deployment
+    spec:
+      containers:
+        - name: ksot-nb-server
+          image: ksot-nb-server:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - "./app"
+          env:
+            - name: GITHUB_SERVER_URL
+              value: GITHUB_SERVER_URL
+            - name: SB_SERVER_URL
+              value: SB_SERVER_URL
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP

@@ -4,9 +4,11 @@
 *.dll
 *.so
 *.dylib
+*.sh
 
 # Test binary, built with `go test -c`
 *.test
+*.DS_Store
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
@@ -20,7 +22,15 @@ cover.html
 
 # Binary dependencies
 bin
+env
 
 # Environment variables
 .env*
 dist/
+
+# other
+sb-server/__pycache__
+sb-server/devices/
+sb-server/connect.json
+sb-server/.DS_Store
+nb-server/pkg/tf/yang

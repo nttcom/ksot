@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ksot-github-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: ksot-github-server
+          env:
+            - name: GITHUB_REPO_NAME
+              value: ksot-example

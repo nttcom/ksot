@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ksot-nb-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: ksot-nb-server
+          env:
+            - name: GITHUB_SERVER_URL
+              value: http://ksot-github-service:8080
+            - name: SB_SERVER_URL
+              value: http://ksot-sb-service:5000
+            - name: YANG_FOLDER_PATH
+              value: /work/nb-server/pkg/tf/yang
+            - name: TEMPORARY_FILEPATH_FOR_LIBYANG
+              value: /work/nb-server/pkg/tf/tmmporaryfile

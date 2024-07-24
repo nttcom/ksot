@@ -1,6 +1,0 @@
-apiVersion: kuesta.hrk091.dev/v1alpha1
-kind: DeviceRollout
-metadata:
-  name: devicerollout-sample
-spec:
-  # TODO(user): Add fields here

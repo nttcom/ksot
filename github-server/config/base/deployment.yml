@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ksot-github-deployment
+spec:
+  selector:
+    matchLabels:
+      app: ksot-github-deployment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ksot-github-deployment
+    spec:
+      containers:
+        - name: ksot-github-server
+          image: ksot-github-server:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - "./app"
+          env:
+            - name: GITHUB_REPO_NAME
+              value: GITHUB_REPO_NAME
+          envFrom:
+            - secretRef:
+                name: secret-github
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
