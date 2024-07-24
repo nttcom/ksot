@@ -23,6 +23,8 @@ THE SOFTWARE.
 # K-SOT
 
 [![Go 1.21+](https://img.shields.io/badge/go-1.21-9cf.svg)](https://golang.org/dl/)
+[![build](https://github.com/nttcom/ksot/actions/workflows/build.yml/badge.svg)](https://github.com/nttcom/ksot/actions/workflows/build.yml)
+[![linter](https://github.com/nttcom/ksot/actions/workflows/golangci-lint.yml/badge.svg)](https://github.com/nttcom/ksot/actions/workflows/golangci-lint.yml)
 
 **K-SOT** is an open source framework for network configuration, enabling Infrastructure-as-Code of network devices. It provides us a rich network automation by adopting cloud-native best practices of IaC and GitOps.
 
