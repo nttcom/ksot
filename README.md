@@ -20,35 +20,32 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
 
-# Kuesta
+# K-SOT
 
-[![Go 1.18+](https://img.shields.io/badge/go-1.18-9cf.svg)](https://golang.org/dl/)
-[![Go Report Card](https://goreportcard.com/badge/nttcom/kuesta)](https://goreportcard.com/report/github.com/nttcom/kuesta)
-[![build](https://github.com/nttcom/kuesta/actions/workflows/build.yml/badge.svg)](https://github.com/nttcom/kuesta/actions/workflows/build.yml)
-[![test](https://github.com/nttcom/kuesta/actions/workflows/test.yml/badge.svg)](https://github.com/nttcom/kuesta/actions/workflows/test.yml)
+[![Go 1.21+](https://img.shields.io/badge/go-1.21-9cf.svg)](https://golang.org/dl/)
 
-**Kuesta** is an open source framework for network configuration, enabling Infrastructure-as-Code of network devices. It provides us a rich network automation by adopting cloud-native best practices of IaC and GitOps.
+**K-SOT** is an open source framework for network configuration, enabling Infrastructure-as-Code of network devices. It provides us a rich network automation by adopting cloud-native best practices of IaC and GitOps.
 
-Documentation is available at https://nttcom.github.io/kuesta-website/docs.
+Documentation is available at https://nttcom.github.io/ksot-website/docs.
 
 
 ## Getting started
 
-- ["Getting-started" tutorial](https://nttcom.github.io/kuesta-website/docs/getting-started)
-- [Installing Kuesta](https://nttcom.github.io/kuesta-website/docs/installation)
+- ["Getting-started" tutorial](https://nttcom.github.io/ksot-website/docs/getting-started)
+- [Installing K-SOT](https://nttcom.github.io/ksot-website/docs/installation)
 
 
 ## Contact
 
-Ask questions via [GitHub Discussions](https://github.com/nttcom/kuesta/discussions).
+Ask questions via [GitHub Discussions](https://github.com/nttcom/ksot/discussions).
 
 
 ## Contributing
 
-- To contribute, please read the [Contribution Guide](https://nttcom.github.io/kuesta-website/docs/contribution-guidelines/).
-- To report issues or make a feature request, use the [GitHub Issues](https://github.com/nttcom/kuesta/issues).
+- To contribute, please read the [Contribution Guide](https://nttcom.github.io/ksot-website/docs/contribution-guidelines/).
+- To report issues or make a feature request, use the [GitHub Issues](https://github.com/nttcom/ksot/issues).
 
 
 ## License
 
-Kuesta is under the [MIT license](https://en.wikipedia.org/wiki/MIT_License).
+K-SOT is under the [MIT license](https://en.wikipedia.org/wiki/MIT_License).

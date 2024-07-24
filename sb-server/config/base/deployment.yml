@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ksot-sb-deployment
+spec:
+  selector:
+    matchLabels:
+      app: ksot-sb-deployment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ksot-sb-deployment
+    spec:
+      containers:
+        - name: ksot-sb-server
+          image: ksot-sb-server:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - "python"
+          args:
+            - "main.py"
+          envFrom:
+            - secretRef:
+                name: secret-sb
+          ports:
+            - containerPort: 5000
+              name: http
+              protocol: TCP

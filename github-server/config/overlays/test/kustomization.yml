@@ -1,0 +1,8 @@
+resources:
+- ../../base 
+patchesStrategicMerge:
+- deployment.yml
+secretGenerator:
+- name: secret-github
+  envs:
+  - .env

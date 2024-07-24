@@ -17,8 +17,13 @@ linters:
     - unconvert
     - whitespace
 linters-settings:
+  gosec:
+    excludes:
+      - G204
   gocognit:
-    min-complexity: 20
+    min-complexity: 40
+  nestif:
+    min-complexity: 40
   exhaustive:
     default-signifies-exhaustive: true
 issues:
@@ -33,3 +38,5 @@ issues:
 run:
   skip-files:
     - generated.go
+  skip-dirs:
+    - xml

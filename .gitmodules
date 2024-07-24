@@ -1,0 +1,3 @@
+[submodule "nb-server/libyang"]
+	path = nb-server/libyang
+	url = git@github.com:CESNET/libyang.git
