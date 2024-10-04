@@ -33,19 +33,17 @@ Documentation is available at https://nttcom.github.io/ksot-website/docs.
 
 ## Getting started
 
-- ["Getting-started" tutorial](https://nttcom.github.io/ksot-website/docs/getting-started)
-- [Installing K-SOT](https://nttcom.github.io/ksot-website/docs/installation)
+["Getting-started" tutorial](https://nttcom.github.io/ksot-website/docs/getting-started)
 
 
 ## Contact
 
-Ask questions via [GitHub Discussions](https://github.com/nttcom/ksot/discussions).
+Please contact us at email [address](<tatsuki.sakai@ntt.com>)
 
 
 ## Contributing
 
-- To contribute, please read the [Contribution Guide](https://nttcom.github.io/ksot-website/docs/contribution-guidelines/).
-- To report issues or make a feature request, use the [GitHub Issues](https://github.com/nttcom/ksot/issues).
+To report issues or make a feature request, use the [GitHub Issues](https://github.com/nttcom/ksot/issues).
 
 
 ## License
