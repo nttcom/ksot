@@ -36,6 +36,7 @@ linters:
           - unused
           - bodyclose
           - gosec
+          - noctx
     paths:
       - generated.go
       - xml

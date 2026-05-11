@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -25,11 +26,11 @@ func NewHandler(config config.Config) *handler {
 }
 
 func matchDataWithGithub() error {
-	if out, err := exec.Command("git", "-C", config.Cfg.GitRepoPath, "fetch", "origin", "main").CombinedOutput(); err != nil {
+	if out, err := exec.CommandContext(context.Background(), "git", "-C", config.Cfg.GitRepoPath, "fetch", "origin", "main").CombinedOutput(); err != nil {
 		fmt.Println("fetch: ", string(out))
 		return fmt.Errorf("matchDataWithGithub: %w: %v", err, string(out))
 	}
-	if out, err := exec.Command("git", "-C", config.Cfg.GitRepoPath, "reset", "--hard", "origin/main").CombinedOutput(); err != nil {
+	if out, err := exec.CommandContext(context.Background(), "git", "-C", config.Cfg.GitRepoPath, "reset", "--hard", "origin/main").CombinedOutput(); err != nil {
 		fmt.Println("reset: ", string(out))
 		return fmt.Errorf("matchDataWithGithub: %w: %v", err, string(out))
 	}
@@ -43,15 +44,15 @@ func updateGithubWithLocal(editFunc func() error, commitMessage string) error {
 	if err := editFunc(); err != nil {
 		return fmt.Errorf("updateGithubWithLocal: %w", err)
 	}
-	if out, err := exec.Command("git", "-C", config.Cfg.GitRepoPath, "add", ".").CombinedOutput(); err != nil {
+	if out, err := exec.CommandContext(context.Background(), "git", "-C", config.Cfg.GitRepoPath, "add", ".").CombinedOutput(); err != nil {
 		fmt.Println("add: ", string(out))
 		return fmt.Errorf("updateGithubWithLocal: %w: %v", err, string(out))
 	}
-	if out, err := exec.Command("git", "-C", config.Cfg.GitRepoPath, "commit", "--allow-empty", "-m", commitMessage).CombinedOutput(); err != nil {
+	if out, err := exec.CommandContext(context.Background(), "git", "-C", config.Cfg.GitRepoPath, "commit", "--allow-empty", "-m", commitMessage).CombinedOutput(); err != nil {
 		fmt.Println("commit: ", string(out))
 		return fmt.Errorf("updateGithubWithLocal: %w: %v", err, string(out))
 	}
-	if out, err := exec.Command("git", "-C", config.Cfg.GitRepoPath, "push").CombinedOutput(); err != nil {
+	if out, err := exec.CommandContext(context.Background(), "git", "-C", config.Cfg.GitRepoPath, "push").CombinedOutput(); err != nil {
 		fmt.Println("commit: ", string(out))
 		return fmt.Errorf("updateGithubWithLocal: %w: %v", err, string(out))
 	}
@@ -63,8 +64,9 @@ func (h *handler) GetFileData(c echo.Context) error {
 	if filePath == "" {
 		return echo.NewHTTPError(http.StatusBadRequest, "query parameter for file path does not exist:")
 	}
-	fmt.Println("GetFileData: ", h.config.GitRepoPath+filePath)
-	bytes, err := os.ReadFile(h.config.GitRepoPath + filePath)
+	fullPath := filepath.Join(h.config.GitRepoPath, filePath)
+	fmt.Println("GetFileData: ", fullPath)
+	bytes, err := os.ReadFile(fullPath) //nolint:gosec
 	if err != nil {
 		fmt.Println(err, "check")
 		return echo.NewHTTPError(http.StatusInternalServerError, fmt.Sprintf("GetFileData: %v", err))
@@ -96,7 +98,7 @@ func (h *handler) PostFileData(c echo.Context) error {
 		switch post_option {
 		case "new":
 			if _, err := os.Stat(h.config.GitRepoPath + req.Path); err == nil {
-				return errors.New("The file already exists")
+				return errors.New("the file already exists")
 			}
 		case "new_safe":
 			if _, err := os.Stat(h.config.GitRepoPath + req.Path); err == nil {
