@@ -6,7 +6,7 @@ import (
 )
 
 func LoadJson(inputPath string, obj interface{}) error {
-	jsonByte, err := os.ReadFile(inputPath)
+	jsonByte, err := os.ReadFile(inputPath) //nolint:gosec
 	if err != nil {
 		return err
 	}

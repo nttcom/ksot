@@ -57,7 +57,7 @@ func (ap *api) GetRequest(path string, timeout int) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer response.Body.Close()
+	defer func() { _ = response.Body.Close() }()
 	if response.StatusCode >= 300 {
 		return nil, fmt.Errorf("GetRequest: endpoint=%v,  statusCode=%v", url, response.StatusCode)
 	}
@@ -79,7 +79,7 @@ func (ap *api) DeleteRequest(path string, timeout int) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer response.Body.Close()
+	defer func() { _ = response.Body.Close() }()
 	if response.StatusCode >= 300 {
 		return nil, fmt.Errorf("GetRequest: endpoint=%v,  statusCode=%v", url, response.StatusCode)
 	}
@@ -111,7 +111,7 @@ func (ap *api) PostRequest(path string, contentType string, reqBody interface{},
 	if err != nil {
 		return nil, err
 	}
-	defer response.Body.Close()
+	defer func() { _ = response.Body.Close() }()
 	if response.StatusCode >= 300 {
 		return nil, fmt.Errorf("PostRequest: endpoint=%v,  statusCode=%v", url, response.StatusCode)
 	}
@@ -147,7 +147,7 @@ func (ap *api) PostRequestAddOption(path string, contentType string, option stri
 	if err != nil {
 		return nil, err
 	}
-	defer response.Body.Close()
+	defer func() { _ = response.Body.Close() }()
 	if response.StatusCode >= 300 {
 		return nil, fmt.Errorf("PostRequest: endpoint=%v,  statusCode=%v", url, response.StatusCode)
 	}
@@ -179,7 +179,7 @@ func (ap *api) PutRequest(path string, contentType string, reqBody interface{}, 
 	if err != nil {
 		return nil, err
 	}
-	defer response.Body.Close()
+	defer func() { _ = response.Body.Close() }()
 	if response.StatusCode >= 300 {
 		return nil, fmt.Errorf("PutRequest: endpoint=%v,  statusCode=%v", url, response.StatusCode)
 	}
@@ -205,7 +205,9 @@ func (ap *api) PostFileRequest(path string, fileData []byte, timeout int) error 
 	if err != nil {
 		return err
 	}
-	writer.Close()
+	if err := writer.Close(); err != nil {
+		return err
+	}
 
 	req, err = http.NewRequestWithContext(context.Background(), http.MethodPost, url, body)
 	if err != nil {
@@ -217,6 +219,6 @@ func (ap *api) PostFileRequest(path string, fileData []byte, timeout int) error 
 	if err != nil {
 		return fmt.Errorf("PostFileRequest: response=%v", response)
 	}
-	defer response.Body.Close()
+	defer func() { _ = response.Body.Close() }()
 	return nil
 }

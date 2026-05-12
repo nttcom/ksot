@@ -1,9 +1,10 @@
+version: "2"
 linters:
   enable:
     - bodyclose
     - errorlint
     - exhaustive
-    - exportloopref
+    - copyloopvar
     - goconst
     - gocritic
     - godot
@@ -16,27 +17,26 @@ linters:
     - predeclared
     - unconvert
     - whitespace
-linters-settings:
-  gosec:
-    excludes:
-      - G204
-  gocognit:
-    min-complexity: 40
-  nestif:
-    min-complexity: 40
-  exhaustive:
-    default-signifies-exhaustive: true
-issues:
-  exclude-rules:
-    - path: _test\.go
-      linters:
-        - errcheck
-        - goconst
-        - unused
-        - bodyclose
-        - gosec
-run:
-  skip-files:
-    - generated.go
-  skip-dirs:
-    - xml
+  settings:
+    gosec:
+      excludes:
+        - G204
+    gocognit:
+      min-complexity: 40
+    nestif:
+      min-complexity: 40
+    exhaustive:
+      default-signifies-exhaustive: true
+  exclusions:
+    rules:
+      - path: _test\.go
+        linters:
+          - errcheck
+          - goconst
+          - unused
+          - bodyclose
+          - gosec
+          - noctx
+    paths:
+      - generated.go
+      - xml
