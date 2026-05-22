@@ -1,3 +1,7 @@
 [submodule "nb-server/libyang"]
 	path = nb-server/libyang
 	url = git@github.com:CESNET/libyang.git
+
+[submodule "docs/website/themes/docsy"]
+	path = docs/website/themes/docsy
+	url = https://github.com/google/docsy
