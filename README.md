@@ -33,7 +33,7 @@ Documentation is available at https://nttcom.github.io/ksot-website/docs.
 
 ## Getting started
 
-["Getting-started" tutorial](https://nttcom.github.io/ksot-website/docs/getting-started)
+["Getting-started" tutorial](https://nttcom.github.io/ksot/docs/getting-started)
 
 
 ## Contact
